@@ -20,7 +20,7 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "Timothy K Reynoso with help from JT and John"
 
 
 import random
@@ -34,7 +34,7 @@ def create_mimic_dict(filename):
         Output:
             {
                 "" : ["I"],
-                "I" : ["am", "don't"],
+                "I" : ["am", "don't"], => ["am"]
                 "am": ["a"],
                 "a": ["software"],
                 "software" : ["developer,"],
@@ -45,8 +45,25 @@ def create_mimic_dict(filename):
                 "who" : ["knows"]
             }
     """
-    # +++your code here+++
-    pass
+    with open(filename, 'r') as file:
+        all_lines = file.read()
+        # new_word_list = list(filter(None,all_lines.split()))
+        new_word_list = all_lines.split()
+        new_dict = {}
+        new_dict[""] = [new_word_list[0]]
+        for word in range(1, len(new_word_list)):
+            if new_word_list[word - 1] in new_dict:
+                # new_dict[new_word_list[word - 1]] += [new_word_list[word]]
+                new_dict[new_word_list[word - 1]].append(new_word_list[word])
+            else:
+                new_dict[new_word_list[word - 1]] = [new_word_list[word]]
+        # for i, word in enumerate((new_word_list), start=-1):
+        #     if word in new_dict:
+        #         new_dict[word] += [new_word_list[i + 1]]
+        #     else:
+        #         new_dict[word] = [new_word_list[i + 1]]
+    print(new_dict)
+    return new_dict
 
 
 def print_mimic_random(mimic_dict, num_words):
@@ -59,7 +76,20 @@ def print_mimic_random(mimic_dict, num_words):
         - Repeat this process num_words times
     """
     # +++your code here+++
-    pass
+    i = 0
+    result = ''
+    start_word = ''
+    while i < num_words:
+        if start_word in mimic_dict:
+            random_word = random.choice(mimic_dict[start_word])
+            result += (" " + random_word + " ")
+            start_word = random_word
+            i += 1
+        else:
+            start_word = ''
+            i += 1
+    print(result)
+    return result
 
 
 def main(args):
